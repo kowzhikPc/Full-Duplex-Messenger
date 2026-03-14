@@ -13,12 +13,19 @@ conn,addr = server.accept()
 
 def Receiver():
     while True:
-        print("\n",conn.recv(1024).decode("utf-8"))
-    
+        data = conn.recv(1024).decode("utf-8")
+        if data:
+            if data != "65451465434656":
+                print(data)
+            else:
+                x = input("Enter something to Send-")
+                conn.send(x.encode("utf-8"))
+
+             
 def sender():
-        while True:
-            x = input("Enter something to Send-")
-            conn.send(x.encode("utf-8"))
+    while True:
+        x = input("Enter something to Send-")
+        conn.send(x.encode("utf-8"))
 
 recv = threading.Thread(target=Receiver,daemon=True)
 send = threading.Thread(target=sender,daemon=True)
