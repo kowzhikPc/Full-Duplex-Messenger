@@ -1,25 +1,28 @@
 import socket
+import tkinter as tk
 import threading
+import time
 
-client = socket.socket()
-client.connect(("localhost",9999))
-def sender():
+def recv():
+    client = socket.socket()
+    client.connect(("localhost",9999))
+    global a
     while True:
-        x = input("Enter something to send-")
-        if x:
-            client.send(x.encode("utf-8"))
-            client.send("65451465434656".encode())
+        a = client.recv(1024).decode("utf-8")
+        root.after(0,lambda: textbox.insert(tk.END,a))
 
-def receiver():
-    while True:
-        data = client.recv(1024).decode("utf-8")
-        if data:
-            print(data)
+root = tk.Tk()
+root.geometry("300x500")
+root.title("client")
+label = tk.Label(root,text="Chat box!")
+label.pack()
 
-t = threading.Thread(target=receiver,daemon=True)
-t2 = threading.Thread(target=sender,daemon=True)
+textbox = tk.Text(root,height=100,width=100)
+textbox.pack(padx=10,pady=4)
 
+
+t = threading.Thread(target=recv,daemon=True)
 t.start()
-t2.start()
-t.join()
-t2.join()   
+
+root.mainloop()
+
