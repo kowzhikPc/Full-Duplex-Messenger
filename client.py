@@ -10,7 +10,7 @@ def recv():
     while True:
         a = client.recv(1024).decode("utf-8")
         root.after(0,lambda: textbox.insert(tk.END,a))
-
+        time.sleep(0.1)
 root = tk.Tk()
 root.geometry("300x500")
 root.title("client")
