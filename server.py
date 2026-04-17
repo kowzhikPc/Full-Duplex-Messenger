@@ -2,6 +2,7 @@ import tkinter as tk
 import time
 import socket
 import threading
+import sys
 
 def sender():
     server = socket.socket()
@@ -9,6 +10,14 @@ def sender():
     server.listen()
     global conn
     conn,addr = server.accept()
+    while True:
+        x= conn.recv(2048).decode("utf-8")
+        if x == "32@34":
+            root.destroy()
+            sys.exit(0)
+        textbox.config(state="normal")
+        textbox.insert(tk.END,time.asctime()[11:-8]+" : "+x+"\n")
+        textbox.config(state="disabled")
 
 def sumbit():
     conn.send(entry.get().encode("utf-8"))
