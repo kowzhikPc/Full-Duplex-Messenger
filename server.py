@@ -11,11 +11,11 @@ def sender():
     conn,addr = server.accept()
 
 def sumbit():
+    conn.send(entry.get().encode("utf-8"))
     textbox.config(state="normal")
     textbox.insert(tk.END,time.asctime()[11:-8]+" : "+entry.get()+"\n")
-    conn.send(entry.get().encode("utf-8"))
-    entry.delete(0,tk.END)
     textbox.config(state='disabled')
+    entry.delete(0,tk.END)
 
 root = tk.Tk()
 root.geometry("800x800")
